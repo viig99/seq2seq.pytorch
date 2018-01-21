@@ -17,11 +17,11 @@ python main.py \
   --b 16 \
   --start-epoch 0 \
   --epochs 600 \
-  --print-freq 100 \
-  --save-freq 1500 \
-  --eval-freq 3000 \
+  --print-freq 50 \
+  --save-freq 1000 \
+  --eval-freq 500 \
   --workers 4 \
   --trainer Img2SeqTrainer \
   --optimization_config "[{'epoch': 0, 'optimizer': 'Adam', 'lr': 1e-3},
-                          {'epoch': 10, 'optimizer': 'Adam', 'lr': 1e-4},
-                          {'epoch': 30, 'optimizer': 'SGD', 'lr': 1e-4, 'momentum': 0.9}]"
+                          {'epoch': 2, 'optimizer': 'Adam', 'lr': 1e-4},
+                          {'epoch': 8, 'optimizer': 'SGD', 'lr': 1e-4, 'momentum': 0.9}]"
