@@ -16,7 +16,7 @@ python main.py \
   --data_config "{}" \
   --b 16 \
   --start-epoch 0 \
-  --epochs 600 \
+  --epochs 50 \
   --print-freq 50 \
   --save-freq 1000 \
   --eval-freq 500 \
