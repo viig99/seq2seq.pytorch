@@ -33,9 +33,10 @@ class Translator(object):
                  length_normalization_factor=0,
                  max_sequence_length=50,
                  get_attention=False,
-                 cuda=None):
+                 cuda=None,
+                 length_normalization_const=5):
         assert checkpoint is not None or \
-            model is not None and src_tok is not None and target_tok is not None, \
+            model is not None and (src_tok is not None or target_tok is not None), \
             "supply either a checkpoint dictionary or model and tokenizers"
         if checkpoint is not None:
             config = checkpoint['config']
@@ -61,7 +62,8 @@ class Translator(object):
             beam_size=beam_size,
             max_sequence_length=max_sequence_length,
             get_attention=get_attention,
-            length_normalization_factor=length_normalization_factor)
+            length_normalization_factor=length_normalization_factor,
+            length_normalization_const=length_normalization_const)
 
     def set_src_language(self, language=None):
         if language is None:
@@ -143,16 +145,19 @@ class CaptionGenerator(Translator):
                  length_normalization_factor=0,
                  max_sequence_length=50,
                  get_attention=False,
-                 cuda=False):
+                 cuda=False,
+                 length_normalization_const=5):
         self.img_transform = img_transform
-        super(CaptionGenerator, self).__init__(model,
+        super(CaptionGenerator, self).__init__(None,
+                                               model,
                                                None,
                                                target_tok,
                                                beam_size,
                                                length_normalization_factor,
                                                max_sequence_length,
                                                get_attention,
-                                               cuda)
+                                               cuda,
+                                               length_normalization_const)
 
     def set_src_language(self, language):
         pass

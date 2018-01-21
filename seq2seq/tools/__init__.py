@@ -31,7 +31,7 @@ def batch_sequences(seqs, max_length=None, max_tokens=None,
         seq_tensor = seq_tensor.unsqueeze(batch_dim)
     else:
         if sort:
-            seqs.sort(key=len, reverse=True)
+            seqs = sorted(seqs, key=len, reverse=True)
         lengths = _limit_lengths(seqs, max_length, max_tokens)
         batch_length = max(lengths)
         tensor_size = (len(seqs), batch_length) if batch_first \

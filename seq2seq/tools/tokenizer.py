@@ -56,7 +56,7 @@ class Tokenizer(object):
         """segments a line to tokenizable items"""
         return str(line).lower().translate(string.punctuation).strip().split()
 
-    def get_vocab(self,  item_list, from_filenames=True, limit=None):
+    def get_vocab(self,  item_list, from_filenames=True, limit=None, segmented=False):
         vocab = OrderedCounter()
         if from_filenames:
             filenames = item_list
@@ -68,7 +68,8 @@ class Tokenizer(object):
                             vocab[word] += 1
         else:
             for line in item_list:
-                for word in self.segment(line):
+                segments = line if segmented else self.segment(line)
+                for word in segments:
                     vocab[word] += 1
         self.vocab = vocab.most_common(limit)
         self.update_word2idx()
@@ -83,14 +84,14 @@ class Tokenizer(object):
         vocab = OrderedCounter()
         with codecs.open(vocab_filename, encoding='UTF-8') as f:
             for line in f:
-                word, count = line.strip().split()
+                word, count = line.split()
                 vocab[word] = int(count)
         self.vocab = vocab.most_common(limit)
         self.update_word2idx()
 
-    def tokenize(self, line, insert_start=None, insert_end=None):
+    def tokenize(self, line, insert_start=None, insert_end=None, segmented=False):
         """tokenize a line, insert_start and insert_end are lists of tokens"""
-        inputs = self.segment(line)
+        inputs = self.segment(line) if not segmented else line
         targets = []
         if insert_start is not None:
             targets += insert_start

@@ -27,15 +27,15 @@ class CNNEncoderBase(nn.Module):
         else:
             return set()
 
-    def state_dict(self, destination=None, prefix=''):
+    def state_dict(self, destination=None, prefix='', keep_vars=False):
         if self.finetune:
-            return super(CNNEncoderBase, self).state_dict(destination, prefix)
+            return super(CNNEncoderBase, self).state_dict(destination, prefix, keep_vars)
         else:
             return ()
 
-    def load_state_dict(self, state_dict):
+    def load_state_dict(self, state_dict, strict=True):
         if self.finetune:
-            return super(CNNEncoderBase, self).load_state_dict(state_dict)
+            return super(CNNEncoderBase, self).load_state_dict(state_dict, strict)
 
 
 class ResNetEncoder(CNNEncoderBase):
