@@ -1,11 +1,12 @@
 from __future__ import print_function
 import os
 import cv2
+import re
 
 class Pix2CodeDataset:
-    def __init__(self, path, image_size=256):
+    def __init__(self, path, image_size=(256,256)):
         self.file_names = []
-        self.image_size = (image_size, image_size)
+        self.image_size = image_size
         self.load_dataset(path=path)
 
     def load_dataset(self, path):
@@ -23,13 +24,15 @@ class Pix2CodeDataset:
     def get_preprocessed_img(self, idx):
         img_path = self.file_names[idx] + ".png"
         img = cv2.imread(img_path)
+        img = cv2.resize(img, self.image_size)
         return img
 
     def get_preprocessed_tokens(self, idx):
         gui = open(self.file_names[idx] + ".yaml.nn", 'r')
         token_sequence = []
         for line in gui:
-            line = line.replace("  ", "\\t ").replace("=", " =").replace("\"", " \"").replace("\n", " \\n").replace("  \\n"," \\n").rstrip()
+            line = line.replace("  ", " \\t ").replace("=", " = ").replace("\"", " \" ").replace("\n", " \\n ")
+            line = re.sub( '\s+', ' ', line).strip()
             tokens = line.split(" ")
             for token in tokens:
                 token_sequence.append(token)
