@@ -41,3 +41,12 @@ The models can be trained using several methods:
 
 ## Usage
 Example training scripts are available in ``scripts`` folder. Inference examples are available in ``examples`` folder.
+
+## Pix2Code
+* Add the pix2code / genereated examples to {$FOLDER}/data & evaluation to {$FOLDER}/eval_set and mention the same in `scripts/train/train_pix2code.sh`
+
+* Run `git submodule update --init --recursive` to download the submodules
+
+* Comment out line number 9 in `seq2seq/tools/utils/log.py` and add `DEFAULT_PALETTE = ["#f22c40", "#5ab738", "#407ee7", "#df5320", "#00ad9c", "#c33ff3"]` after the imports
+
+* Run `sh scripts/train/train_pix2code.sh` and checkout the `results.html` in the output folder.
