@@ -44,6 +44,7 @@ class Pix2Code(Dataset):
                  vocab_file=None,
                  insert_start=[BOS], 
                  insert_end=[EOS],
+                 image_size=(256,256),
                  tokenizer=None):
         super(Pix2Code, self).__init__()
         self.tokenizer = tokenizer
@@ -52,7 +53,7 @@ class Pix2Code(Dataset):
         self.vocab_file = vocab_file
         self.img_transform = img_transform()
         path = "data" if split == "train" else "eval_set"
-        self.dset = Pix2CodeDataset(path=os.path.join(root, path))
+        self.dset = Pix2CodeDataset(path=os.path.join(root, path), image_size=image_size)
 
         if self.tokenizer is None:
             prefix = os.path.join(root, 'pix2code_devsupport')

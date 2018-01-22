@@ -9,6 +9,7 @@ import torch.nn as nn
 import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 import torch.optim
+from torch_summary import torch_summarize
 from seq2seq import models, datasets
 from seq2seq.tools.utils.log import setup_logging
 from seq2seq.tools.config import PAD
@@ -132,7 +133,7 @@ def main(args):
     model = getattr(models, args.model)(**model_config)
     batch_first = getattr(model, 'batch_first', False)
 
-    logging.info(model)
+    logging.info(torch_summarize(model))
 
     # define data loaders
     train_loader = train_data.get_loader(batch_size=args.batch_size,

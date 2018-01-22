@@ -24,6 +24,7 @@ class Img2Seq(Seq2Seq):
         decoder.setdefault('dropout', 0)
         decoder.setdefault('residual', False)
         decoder.setdefault('batch_first', False)
+        decoder.setdefault('mode', 'LSTM')
 
         if 'resnet' in encoder['model']:
             self.encoder = ResNetEncoder(**encoder)

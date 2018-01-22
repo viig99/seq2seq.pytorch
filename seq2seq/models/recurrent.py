@@ -139,7 +139,7 @@ class RecurrentAttentionDecoder(nn.Module):
     def __init__(self, vocab_size, context_size, hidden_size=128, embedding_size=None,
                  num_layers=1, bias=True, forget_bias=None, batch_first=False,
                  dropout=0, embedding_dropout=0, tie_embedding=False, residual=False,
-                 weight_norm=False, attention=None, concat_attention=True, num_pre_attention_layers=None):
+                 weight_norm=False, attention=None, concat_attention=True, num_pre_attention_layers=None, mode='LSTM'):
         super(RecurrentAttentionDecoder, self).__init__()
         embedding_size = embedding_size or hidden_size
         attention = attention or {}
@@ -154,7 +154,7 @@ class RecurrentAttentionDecoder(nn.Module):
                                       bias=bias, batch_first=batch_first, dropout=dropout,
                                       forget_bias=forget_bias, residual=residual, weight_norm=weight_norm,
                                       attention=attention, concat_attention=concat_attention,
-                                      num_pre_attention_layers=num_pre_attention_layers)
+                                      num_pre_attention_layers=num_pre_attention_layers, mode=mode)
         self.classifier = nn.Linear(hidden_size, vocab_size)
         self.embedding_dropout = nn.Dropout(embedding_dropout)
         if tie_embedding:

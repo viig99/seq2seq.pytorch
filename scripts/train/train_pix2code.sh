@@ -9,11 +9,11 @@ python main.py \
   --dataset_dir ${DATASET_DIR} \
   --results_dir ${OUTPUT_DIR} \
   --model Img2Seq \
-  --model_config "{'encoder': {'model': 'resnet50', 'finetune': True}, \
-                   'decoder': {'num_layers': 3, 'hidden_size': 32, 'dropout': 0, \
-                               'tie_embedding': False, \
+  --model_config "{'encoder': {'model': 'densenet121', 'finetune': True}, \
+                   'decoder': {'num_layers': 3, 'hidden_size': 64, 'dropout': 0.2, \
+                               'tie_embedding': False, 'mode': 'GRU',\
                                'attention': {'mode': 'bahdanau', 'normalize': True}}}" \
-  --data_config "{}" \
+  --data_config "{'image_size': (256,256)}" \
   --b 16 \
   --start-epoch 0 \
   --epochs 50 \
