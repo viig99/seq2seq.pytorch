@@ -1,2 +1,4 @@
 progressbar2
 Flask
+opencv-python
+torchvision

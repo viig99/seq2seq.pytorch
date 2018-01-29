@@ -43,6 +43,7 @@ The models can be trained using several methods:
 Example training scripts are available in ``scripts`` folder. Inference examples are available in ``examples`` folder.
 
 ## Pix2Code
+* Live Demo now present at [DevSupport AI](http://languagecrunch.docile.online:8080), right now only on buttons and text with various layout more comming soon!
 * Add the pix2code / genereated examples to {$FOLDER}/data & evaluation to {$FOLDER}/eval_set and mention the same in `scripts/train/train_pix2code.sh`
 
 * Run `git submodule update --init --recursive` to download the submodules
