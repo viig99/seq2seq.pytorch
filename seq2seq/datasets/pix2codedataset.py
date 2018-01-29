@@ -12,9 +12,9 @@ class Pix2CodeDataset:
     def load_dataset(self, path):
         print("Loading data...")
         for f in os.listdir(path):
-            if f.find(".yaml.nn") != -1:
+            if f.find(".png") != -1:
                 gui = open("{}/{}".format(path, f), 'r')
-                file_name = f[:f.find(".yaml.nn")]
+                file_name = f[:f.find(".png")]
                 self.add_filenames("{}/{}".format(path, file_name))
         print("Dataset Loaded...")
 
