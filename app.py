@@ -54,13 +54,17 @@ def setup_logging():
 
 
 @app.route("/")
-def show_example():
+def random_example():
     (img, img_fname), target, predicted, attentions = sample(dset, caption_model)
     img_fname = re.sub(r'^.*eval_set','/static', img_fname)
     actual_text = return_list_with_tabs(target)
     predicted_text = return_list_with_tabs(predicted)
     app.logger.info('ImageFile: %s, Actual Text: %s, Predicted Text: %s ', img_fname, target, predicted)
     return render_template('index.html', img_filepath=img_fname, actual_text=actual_text, predicted_text=predicted_text)
+
+@app.route("/upload")
+def upload_example():
+    return render_template('upload.html')
 
 if __name__ == "__main__":
     app.run()
