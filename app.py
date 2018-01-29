@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import torch
 from torch.utils.model_zoo import load_url
 from seq2seq.models import Img2Seq
@@ -7,9 +7,10 @@ import numpy as np
 from seq2seq.datasets.pix2codedataset import Pix2CodeDataset
 import logging
 import re
+import os
+import cv2
 
 app = Flask(__name__)
-
 
 checkpoint = load_url(
     'model_best.pth.tar', model_dir="results/pix2code_devsupport_resnet50_finetune/", map_location={'gpu:0': 'cpu'})
@@ -41,6 +42,10 @@ def return_list_with_tabs(li):
     elems = map(lambda x: x.replace("\\n", "\n").replace("\\t", "\t"), li)
     return ' '.join(elems)
 
+def get_np_array_from_file_object(file):
+     '''converts a buffer from a tar file in np.array'''
+     return np.asarray(bytearray(file.read()), dtype=np.uint8)
+
 @app.before_first_request
 def setup_logging():
     if not app.debug:
@@ -62,9 +67,16 @@ def random_example():
     app.logger.info('ImageFile: %s, Actual Text: %s, Predicted Text: %s ', img_fname, target, predicted)
     return render_template('index.html', img_filepath=img_fname, actual_text=actual_text, predicted_text=predicted_text)
 
-@app.route("/upload")
+@app.route("/upload", methods=['GET', 'POST'])
 def upload_example():
-    return render_template('upload.html')
+    predicted_target = ''
+    if request.method == 'POST':
+        file = request.files['uploaded_image']
+        img = cv2.imdecode(get_np_array_from_file_object(file), 1)
+        img = cv2.resize(img, (256,256))
+        predicted_target_list, attentions = caption_model.describe(img)
+        predicted_target = return_list_with_tabs(predicted_target_list.decode('utf-8').split(' '))
+    return render_template('upload.html', text=predicted_target)
 
 if __name__ == "__main__":
     app.run()

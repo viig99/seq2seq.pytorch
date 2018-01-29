@@ -1,4 +1,17 @@
 {% extends "common.html" %}
 {% set active_page = "upload" %}
 {% block content %}
+    <form action="/upload" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Upload Image</label>
+        <input type="file" class="form-control-file" name="uploaded_image">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% if text %}
+    <div class="row-fluid" style="margin-top: 20px">
+        <h1>Predicted Text</h1>
+        <pre>{{ text }}</pre>
+    </div>
+    {% endif %}
 {% endblock %}
